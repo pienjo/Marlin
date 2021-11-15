@@ -442,6 +442,8 @@ private:
 
 public: // Needed for VP auto-upload
   static bool HasRGBSettings;
+  static bool HasProbe;
+  static bool HasProbeSettings;
   static creality_dwin_settings_t Settings;
 };
 

@@ -363,6 +363,14 @@ constexpr uint16_t VP_FILAMENTRUNOUT_SENSOR_TOGGLE_ICON = 0x230b;
 constexpr uint16_t VP_PLR_TOGGLE_BUTTON = 0x230d;
 constexpr uint16_t VP_PLR_TOGGLE_ICON = 0x230F;
 
+// Leveling mode
+constexpr uint16_t VP_LEVEL_NAV_ICON = 0x2430;
+constexpr uint16_t LEVEL_NAV_ICON_MANUAL = 35;
+constexpr uint16_t LEVEL_NAV_ICON_AUTO = 36;
+constexpr uint16_t VP_LEVEL_SETTINGS_ICON = 0x2432;
+constexpr uint16_t LEVEL_SETTINGS_ICON_AVAILABLE = 37;
+constexpr uint16_t LEVEL_SETTINGS_ICON_UNAVAILABLE = 38;
+
 // Mesh leveling
 constexpr uint16_t VP_LEVELING_NAV_BUTTON = 0x238a;
 constexpr uint16_t VP_LEVELING_EDIT_NAV_BUTTON = 0x23A8;

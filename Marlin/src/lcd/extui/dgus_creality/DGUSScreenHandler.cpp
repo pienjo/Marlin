@@ -74,6 +74,8 @@ uint8_t DGUSScreenHandler::MeshLevelIndex = -1;
 uint8_t DGUSScreenHandler::MeshLevelIconIndex = -1;
 bool DGUSScreenHandler::fwretract_available = TERN(FWRETRACT,  true, false);
 bool DGUSScreenHandler::HasRGBSettings = TERN(HAS_COLOR_LEDS, true, false);
+bool DGUSScreenHandler::HasProbe = TERN(HAS_BED_PROBE, true, false);
+bool DGUSScreenHandler::HasProbeSettings = TERN( HAS_PROBE_SETTINGS, TERN(HAS_BED_PROBE, true, false), false);
 
 static_assert(GRID_MAX_POINTS_X == GRID_MAX_POINTS_Y, "Assuming bed leveling points is square");
 

@@ -217,6 +217,8 @@ const uint16_t VPList_Leveling[] PROGMEM = {
 const uint16_t VPList_ZOffsetLevel[] PROGMEM = {
   VPList_CommonWithStatus,
 
+  VP_LEVEL_NAV_ICON,
+  VP_LEVEL_SETTINGS_ICON,
   0x0000
 };
 
@@ -639,7 +641,9 @@ const struct DGUS_VP_Variable ListOfVP[] PROGMEM = {
   VPHELPER(VP_SCREENCHANGE, nullptr, ScreenHandler.ScreenChangeHook, nullptr),
   VPHELPER(VP_CONFIRMED, nullptr, ScreenHandler.ScreenConfirmedOK, nullptr),
 
-#if ALL(HAS_BED_PROBE_SETTINGS, HAS_BED_PROBE)
+  VPHELPER(VP_LEVEL_NAV_ICON, &DGUSScreenHandler::HasProbe,  nullptr, (ScreenHandler.DGUSLCD_SendIconValue<LEVEL_NAV_ICON_AUTO, LEVEL_NAV_ICON_MANUAL>)),
+  VPHELPER(VP_LEVEL_SETTINGS_ICON, &DGUSScreenHandler::HasProbeSettings,  nullptr, (ScreenHandler.DGUSLCD_SendIconValue<LEVEL_SETTINGS_ICON_AVAILABLE, LEVEL_SETTINGS_ICON_UNAVAILABLE>)),
+#if ALL(HAS_PROBE_SETTINGS, HAS_BED_PROBE)
   VPHELPER(VP_TOGGLE_PROBING_HEATERS_OFF_ONOFF_BUTTON, nullptr, ScreenHandler.HandleToggleProbeHeaters, nullptr),
   VPHELPER(VP_TOGGLE_PROBING_HEATERS_OFF_ONOFF_ICON, &probe.settings.turn_heaters_off, nullptr, (ScreenHandler.DGUSLCD_SendIconValue<ICON_ACCURACY_TOGGLE_ON, ICON_ACCURACY_TOGGLE_OFF>)),
 
