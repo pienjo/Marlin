@@ -406,6 +406,11 @@ const uint16_t VPList_RGB[] PROGMEM = {
   0x0000
 };
 
+const uint16_t VPList_Manual[] PROGMEM = {
+  VP_Z_POSITION_PRECISION,
+  0x0000
+};
+
 
 // -- Mapping from screen to variable list
 const struct VPMapping VPMap[] PROGMEM = {
@@ -473,6 +478,8 @@ const struct VPMapping VPMap[] PROGMEM = {
 
   { DGUSLCD_SCREEN_CALIBRATE, VPList_Calibrate },
   { DGUSLCD_SCREEN_RGB, VPList_RGB},
+  
+  { DGUSLCD_SCREEN_MANUAL_LEVELING, VPList_Manual},
 
   { 0 , nullptr } // List is terminated with an nullptr as table entry.
 };
@@ -776,6 +783,10 @@ const struct DGUS_VP_Variable ListOfVP[] PROGMEM = {
   VPHELPER((VP_MESH_INPUT_X0_Y0 + ( 15 * MESH_INPUT_DATA_SIZE)), nullptr, ScreenHandler.HandleMeshPoint, nullptr),
 #endif
 #endif
+
+  // Manual bed leveling
+  VPHELPER(VP_MANUAL_LEVEL_BUTTON, nullptr, ScreenHandler.HandleManualLevelButton, nullptr),
+
   // M117 LCD String (We don't need the string in memory but "just" push it to the display on demand, hence the nullptr
   { .VP = VP_M117, .memadr = nullptr, .size = VP_M117_LEN, .set_by_display_handler = nullptr, .send_to_display_handler =&ScreenHandler.DGUSLCD_SendStringToDisplay },
   { .VP = VP_M117_STATIC, .memadr = nullptr, .size = VP_M117_STATIC_LEN, .set_by_display_handler = nullptr, .send_to_display_handler =&ScreenHandler.DGUSLCD_SendStringToDisplay },

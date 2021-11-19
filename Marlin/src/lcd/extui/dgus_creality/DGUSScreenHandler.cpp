@@ -249,6 +249,77 @@ void DGUSScreenHandler::HandleDevelopmentTestButton(DGUS_VP_Variable &var, void 
   }
 }
 
+void DGUSScreenHandler::HandleManualLevelButton(DGUS_VP_Variable &, void *val_ptr)
+{
+  // Get button value
+  uint16_t button_value = swap16(*static_cast<uint16_t*>(val_ptr));
+
+  float target_x{0};
+  float target_y{0};
+  float target_z = ExtUI::getAxisPosition_mm( ExtUI::Z );
+  
+  // Act on it
+  switch (button_value) {
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_HOME:
+      ExtUI::injectCommands_P(PSTR("G28"));
+      return;
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_DOWN: 
+      if (ExtUI::isPositionKnown())
+      {
+        ExtUI::injectCommands_P(PSTR("G91\nG1 Z-0.01\nG90"));
+      }
+      return; 
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_UP:
+      if (ExtUI::isPositionKnown())
+      {
+        ExtUI::injectCommands_P(PSTR("G91\nG1 Z0.01\nG90"));
+      }
+      return; 
+      break;
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_FRONT_LEFT:
+      target_x = float (X_BED_SIZE) *0.1;
+      target_y = float (Y_BED_SIZE) *0.1;
+      break;
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_FRONT_RIGHT:
+      target_x = float (X_BED_SIZE) *0.9;
+      target_y = float (Y_BED_SIZE) *0.1;
+      break;
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_REAR_RIGHT:
+      target_x = float (X_BED_SIZE) *0.9;
+      target_y = float (Y_BED_SIZE) *0.9;
+      break;
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_REAR_LEFT:
+      target_x = float (X_BED_SIZE) *0.1;
+      target_y = float (Y_BED_SIZE) *0.9;
+      break;
+    case VP_MANUAL_LEVEL_BUTTON_ACTION_CENTER:
+      target_x = float (X_BED_SIZE) *0.5;
+      target_y = float (Y_BED_SIZE) *0.5;
+      break;
+    default:
+      return;
+  }
+  
+  if (!ExtUI::isPositionKnown())
+  {
+    return;
+  }
+  
+  if (abs(target_z) >= 1)
+  {
+    target_z = 0;
+  }
+
+  char cmd[64], str_1[16], str_2[16];
+  snprintf_P(cmd, 64, PSTR("G1 Z3 F500\nG1 X%s Y%s F4000"), dtostrf(target_x, 1, 3, str_1), dtostrf(target_y, 1, 3, str_2));
+  ExtUI::injectCommands(cmd);
+  while (queue.has_commands_queued()) queue.advance();
+
+  snprintf_P(cmd, 64, PSTR("G1 Z%s F500"), dtostrf(target_z, 1, 3, str_1));
+  ExtUI::injectCommands(cmd);
+  while (queue.has_commands_queued()) queue.advance();
+}
+
 void setStatusMessage(const char *msg, bool forceScrolling) {
   const bool needs_scrolling = forceScrolling || strlen(msg) > M117_STATIC_DISPLAY_LEN;
 

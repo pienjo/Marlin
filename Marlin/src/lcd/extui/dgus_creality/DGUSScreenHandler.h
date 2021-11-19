@@ -77,6 +77,8 @@ public:
 
   static void HandleDevelopmentTestButton(DGUS_VP_Variable &var, void *val_ptr);
 
+  static void HandleManualLevelButton(DGUS_VP_Variable &var, void *val_ptr);
+
   /// "M117" Message -- msg is a RAM ptr.
   static void setstatusmessage(const char* msg);
   /// The same for messages from Flash

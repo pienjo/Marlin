@@ -128,6 +128,8 @@ void LevelingModeHandler(DGUS_VP_Variable &var, unsigned short buttonValue) {
             break;
 
         case VP_BUTTON_MAINENTERKEY:
+#if HAS_BED_PROBE
+            // Auto-leveling
             // Go to leveling screen
             ExtUI::injectCommands_P("G28 U0\nG29 U0");
 #if HAS_MESH
@@ -135,6 +137,10 @@ void LevelingModeHandler(DGUS_VP_Variable &var, unsigned short buttonValue) {
 #endif
             dgusdisplay.WriteVariable(VP_MESH_SCREEN_MESSAGE_ICON, static_cast<uint16_t>(MESH_SCREEN_MESSAGE_ICON_LEVELING));
             ScreenHandler.GotoScreen(DGUSLCD_SCREEN_LEVELING);
+#else
+            // Manual leveling
+            ScreenHandler.GotoScreen(DGUSLCD_SCREEN_MANUAL_LEVELING);
+#endif
             break;
     }
 }
