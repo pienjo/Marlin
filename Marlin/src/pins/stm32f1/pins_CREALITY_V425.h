@@ -34,4 +34,7 @@
 
 #define ONBOARD_SD_CS_PIN   PC9
 
+#define SERVO0_PIN          PB1
+#define Z_MIN_PROBE_PIN     PB0
+
 #include "pins_CREALITY_V4210.h"

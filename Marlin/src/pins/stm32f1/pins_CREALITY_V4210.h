@@ -73,7 +73,9 @@
 //
 // Servos
 //
-#define SERVO0_PIN                          PB0   // BLTouch OUT
+#ifndef SERVO0_PIN
+  #define SERVO0_PIN                          PB0   // BLTouch OUT
+#endif
 
 //
 // Limit Switches
